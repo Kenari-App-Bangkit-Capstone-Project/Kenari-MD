@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Kenari</string>
+    <string name="signup">REGISTER</string>
+    <string name="login">MASUK</string>
+    <string name="message_welcome_page">Aplikasi Kenari adalah aplikasi untuk anda yang ingin...!</string>
+    <string name="title_welcome_page">Selamat datang di KenariApp!</string>
+    <string name="title_signup_page">SIGN UP</string>
+    <string name="message_signup_page">Daftarkan Akunmu, Gratiss</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="message_login_page">Masukkan dulu datamu ya</string>
+    <string name="title_login_page">WELCOME</string>
+    <string name="name">Nama</string>
+    <string name="message_main_page">Selamat Belajar di Dicoding.</string>
+    <string name="greeting">Halo %1$s,</string>
+    <string name="logout">Keluar</string>
+</resources>
