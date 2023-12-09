@@ -2,7 +2,7 @@
     <string name="app_name">Kenari</string>
     <string name="signup">REGISTER</string>
     <string name="login">MASUK</string>
-    <string name="message_welcome_page">Aplikasi Kenari adalah aplikasi untuk anda yang ingin...!</string>
+    <string name="message_welcome_page">Selamat datang di Aplikasi Kenari! Aplikasi ini adalah solusi bagi Anda yang ingin menjaga kesehatan mental dengan berbagai fitur dan panduan yang mendukung kesehatan mental anda!</string>
     <string name="title_welcome_page">Selamat datang di KenariApp!</string>
     <string name="title_signup_page">SIGN UP</string>
     <string name="message_signup_page">Daftarkan Akunmu, Gratiss</string>
