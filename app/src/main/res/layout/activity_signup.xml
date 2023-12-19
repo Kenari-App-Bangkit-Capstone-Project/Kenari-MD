@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".view.signup.SignupActivity">
 
-
     <TextView
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
@@ -21,6 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:alpha="100" />
+
     <TextView
         android:id="@+id/descTextView"
         android:layout_width="wrap_content"

@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">Kenari</string>
+    <string name="app_name2">Halo </string>
     <string name="signup">REGISTER</string>
-    <string name="login">MASUK</string>
-    <string name="message_welcome_page">Aplikasi Kenari adalah aplikasi untuk anda yang ingin...!</string>
+    <string name="login">LOGIN</string>
+    <string name="message_welcome_page">Aplikasi ini adalah solusi bagi Anda yang ingin menjaga kesehatan mental dengan berbagai fitur dan panduan yang mendukung kesehatan mental anda!</string>
     <string name="title_welcome_page">Selamat datang di KenariApp!</string>
     <string name="title_signup_page">SIGN UP</string>
     <string name="message_signup_page">Daftarkan Akunmu, Gratiss</string>
@@ -14,4 +15,9 @@
     <string name="message_main_page">Selamat Belajar di Dicoding.</string>
     <string name="greeting">Halo %1$s,</string>
     <string name="logout">Keluar</string>
+    <string name="about">About</string>
+    <string name="desc_feature1">Chat Discussion merupakan fitur ...dimana...</string>
+    <string name="lorem">Lorem ipsum dolor sit amet consectetur. Ultricies amet aliquet donec vulputate. Quisque purus vestibulum urna diam eu ultrices arcu convallis. A leo pretium sit ultricies feugiat sociis libero.</string>
+    <string name="desc_feature2">MBTI Test merupakan fitur ...dimana...</string>
+    <string name="desc_feature3">Chatbot merupakan fitur ...dimana...</string>
 </resources>

@@ -43,7 +43,7 @@ class SignupActivity : AppCompatActivity() {
 
             AlertDialog.Builder(this).apply {
                 setTitle("Yeah!")
-                setMessage("Akun dengan $email sudah jadi nih. Yuk, login dan belajar coding.")
+                setMessage("Akun dengan $email sudah dibuat.")
                 setPositiveButton("Lanjut") { _, _ ->
                     finish()
                 }
@@ -61,6 +61,7 @@ class SignupActivity : AppCompatActivity() {
         }.start()*/
 
         val title = ObjectAnimator.ofFloat(binding.titleTextView, View.ALPHA, 1f).setDuration(100)
+        val desc = ObjectAnimator.ofFloat(binding.descTextView, View.ALPHA, 1f).setDuration(100)
         val nameTextView =
             ObjectAnimator.ofFloat(binding.nameTextView, View.ALPHA, 1f).setDuration(100)
         val nameEditTextLayout =
@@ -79,6 +80,7 @@ class SignupActivity : AppCompatActivity() {
         AnimatorSet().apply {
             playSequentially(
                 title,
+                desc,
                 nameTextView,
                 nameEditTextLayout,
                 emailTextView,

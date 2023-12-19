@@ -1,4 +1,4 @@
-package com.dicoding.kenari.view.about
+package com.dicoding.kenari.view.test
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -6,12 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.dicoding.kenari.R
 
-class AboutActivity : AppCompatActivity() {
+class TestActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_about)
+        setContentView(R.layout.activity_test)
 
-        supportActionBar?.title = "About"
+        supportActionBar?.title = "MBTI Test"
         supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#20BAB3")))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
@@ -20,4 +20,5 @@ class AboutActivity : AppCompatActivity() {
         onBackPressedDispatcher.onBackPressed()
         return true
     }
+
 }
