@@ -6,15 +6,23 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import com.dicoding.kenari.api.ApiConfig
+import com.dicoding.kenari.api.LoginRequest
+import com.dicoding.kenari.api.LoginResponse
 import com.dicoding.kenari.data.pref.UserModel
 import com.dicoding.kenari.databinding.ActivityLoginBinding
 import com.dicoding.kenari.view.ViewModelFactory
 import com.dicoding.kenari.view.main.MainActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
     private val viewModel by viewModels<LoginViewModel> {
@@ -48,18 +56,57 @@ class LoginActivity : AppCompatActivity() {
     private fun setupAction() {
         binding.loginButton.setOnClickListener {
             val email = binding.emailEditText.text.toString()
-            viewModel.saveSession(UserModel(email, "sample_token"))
-            AlertDialog.Builder(this).apply {
-                setTitle("Yeah!")
-                setMessage("Anda berhasil login.")
-                setPositiveButton("Lanjut") { _, _ ->
-                    val intent = Intent(context, MainActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                    startActivity(intent)
-                    finish()
+            val password = binding.passwordEditText.text.toString()
+
+            if (email.isEmpty() || password.isEmpty()) {
+                AlertDialog.Builder(this).apply {
+                    setTitle("Error!")
+                    setMessage("Email dan password harus terisi")
+                    create()
+                    show()
                 }
-                create()
-                show()
+            } else {
+                val loginRequest = LoginRequest(email = email, password = password)
+                ApiConfig.instanceRetrofit.login(loginRequest)
+                    .enqueue(object : Callback<LoginResponse> {
+                        override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+
+                            if (response.code() == 403) {
+                                AlertDialog.Builder(this@LoginActivity).apply {
+                                    setTitle("Login Gagal")
+                                    setMessage("Email atau Password yang anda masukkan tidak cocok")
+                                    setPositiveButton("OK") { _, _ ->}
+                                    create()
+                                    show()
+                                }
+                            }
+
+                            if (response.isSuccessful) {
+                                val responseBody = response.body()
+
+                                if (responseBody != null) {
+                                    if (responseBody.data == null) {
+                                        Toast.makeText(this@LoginActivity, responseBody.message, Toast.LENGTH_SHORT).show()
+                                    } else {
+                                        viewModel.saveSession(UserModel(email, responseBody.data.token.toString()))
+
+                                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                        startActivity(intent)
+                                        finish()
+
+                                        Toast.makeText(this@LoginActivity, "Login Berhasil, selamat datang kembali!", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            }
+                        }
+
+                        override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                            // Handle failure here if needed
+                            Log.e("LoginActivity", "Error", t)
+                            Toast.makeText(this@LoginActivity, "Tidak dapat terhubung ke server", Toast.LENGTH_SHORT).show()
+                        }
+                    })
             }
         }
     }

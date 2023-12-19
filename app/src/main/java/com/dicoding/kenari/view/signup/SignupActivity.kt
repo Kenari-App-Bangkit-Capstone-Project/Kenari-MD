@@ -2,16 +2,35 @@ package com.dicoding.kenari.view.signup
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import com.dicoding.kenari.api.ApiConfig
+import com.dicoding.kenari.api.LoginRequest
+import com.dicoding.kenari.api.LoginResponse
+import com.dicoding.kenari.api.RegisterRequest
+import com.dicoding.kenari.api.RegisterResponse
+import com.dicoding.kenari.data.pref.UserModel
 import com.dicoding.kenari.databinding.ActivitySignupBinding
+import com.dicoding.kenari.view.ViewModelFactory
+import com.dicoding.kenari.view.main.MainActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SignupActivity : AppCompatActivity() {
+    private val viewModel by viewModels<SignupViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
+
     private lateinit var binding: ActivitySignupBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,16 +58,82 @@ class SignupActivity : AppCompatActivity() {
 
     private fun setupAction() {
         binding.signupButton.setOnClickListener {
+            val name = binding.nameEditText.text.toString()
             val email = binding.emailEditText.text.toString()
+            val password = binding.passwordEditText.text.toString()
 
-            AlertDialog.Builder(this).apply {
-                setTitle("Yeah!")
-                setMessage("Akun dengan $email sudah dibuat.")
-                setPositiveButton("Lanjut") { _, _ ->
-                    finish()
+            if (name.isEmpty() ||email.isEmpty() || password.isEmpty()) {
+                AlertDialog.Builder(this).apply {
+                    setTitle("Error!")
+                    setMessage("Semua form harus tersis")
+                    create()
+                    show()
                 }
-                create()
-                show()
+            } else {
+                val registerRequest = RegisterRequest(name, email, password)
+                ApiConfig.instanceRetrofit.register(registerRequest)
+                    .enqueue(object : Callback<RegisterResponse> {
+                        override fun onResponse(call: Call<RegisterResponse>, response: Response<RegisterResponse>) {
+
+                            if (response.code() == 422) {
+                                AlertDialog.Builder(this@SignupActivity).apply {
+                                    setTitle("Daftar akun gagal")
+                                    setMessage("Email yang anda masukkan telah terdaftar di akun kami!")
+                                    setPositiveButton("OK") { _, _ ->}
+                                    create()
+                                    show()
+                                }
+                            }
+
+                            if (response.isSuccessful) {
+                                val loginRequest = LoginRequest(email = email, password = password)
+                                ApiConfig.instanceRetrofit.login(loginRequest)
+                                    .enqueue(object : Callback<LoginResponse> {
+                                        override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+
+                                            if (response.isSuccessful) {
+                                                val responseBody = response.body()
+
+                                                if (responseBody != null) {
+                                                    if (responseBody.data == null) {
+                                                        Toast.makeText(this@SignupActivity, responseBody.message, Toast.LENGTH_SHORT).show()
+                                                    } else {
+                                                        viewModel.saveSession(UserModel(email, responseBody.data.token.toString()))
+
+                                                        AlertDialog.Builder(this@SignupActivity).apply {
+                                                            setTitle("Yeah!")
+                                                            setMessage("Anda berhasil daftar akun. selamat datang $name")
+                                                            setPositiveButton("Lanjutkan") { _, _ ->
+                                                                val intent = Intent(context, MainActivity::class.java)
+                                                                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                                                startActivity(intent)
+                                                                finish()
+                                                            }
+                                                            create()
+                                                            show()
+                                                        }
+
+                                                        Toast.makeText(this@SignupActivity, "Selamat datang!", Toast.LENGTH_SHORT).show()
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                                            // Handle failure here if needed
+                                            Log.e("LoginActivity", "Error", t)
+                                            Toast.makeText(this@SignupActivity, "Tidak dapat terhubung ke server", Toast.LENGTH_SHORT).show()
+                                        }
+                                    })
+                            }
+                        }
+
+                        override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+                            // Handle failure here if needed
+                            Log.e("LoginActivity", "Error", t)
+                            Toast.makeText(this@SignupActivity, "Tidak dapat terhubung ke server", Toast.LENGTH_SHORT).show()
+                        }
+                    })
             }
         }
     }
