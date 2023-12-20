@@ -5,12 +5,12 @@
     <group
         android:menuCategory="container">
         <item
-            android:id="@+id/btnLogout"
-            android:title="@string/logout"
-            app:showAsAction="never"/>
-        <item
             android:id="@+id/btnAbout"
             android:title="@string/about"
+            app:showAsAction="never"/>
+        <item
+            android:id="@+id/btnLogout"
+            android:title="@string/logout"
             app:showAsAction="never"/>
     </group>
 

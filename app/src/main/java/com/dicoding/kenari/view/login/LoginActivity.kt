@@ -88,7 +88,16 @@ class LoginActivity : AppCompatActivity() {
                                     if (responseBody.data == null) {
                                         Toast.makeText(this@LoginActivity, responseBody.message, Toast.LENGTH_SHORT).show()
                                     } else {
-                                        viewModel.saveSession(UserModel(email, responseBody.data.token.toString()))
+                                        val responseData = responseBody.data
+                                        viewModel.saveSession(UserModel(
+                                            email = email,
+                                            token = responseData.token.toString(),
+                                            userId = responseData.user?.userId.toString(),
+                                            name = responseData.user?.name.toString(),
+                                            label = responseData.user?.label.toString(),
+                                            address = responseData.user?.address.toString(),
+                                            university = responseData.user?.university.toString(),
+                                        ))
 
                                         val intent = Intent(this@LoginActivity, MainActivity::class.java)
                                         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK

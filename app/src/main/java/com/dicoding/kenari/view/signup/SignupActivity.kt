@@ -98,7 +98,16 @@ class SignupActivity : AppCompatActivity() {
                                                     if (responseBody.data == null) {
                                                         Toast.makeText(this@SignupActivity, responseBody.message, Toast.LENGTH_SHORT).show()
                                                     } else {
-                                                        viewModel.saveSession(UserModel(email, responseBody.data.token.toString()))
+                                                        val responseData = responseBody.data
+                                                        viewModel.saveSession(UserModel(
+                                                            email = email,
+                                                            token = responseData.token.toString(),
+                                                            userId = responseData.user?.userId.toString(),
+                                                            name = responseData.user?.name.toString(),
+                                                            label = responseData.user?.label.toString(),
+                                                            address = responseData.user?.address.toString(),
+                                                            university = responseData.user?.university.toString(),
+                                                        ))
 
                                                         AlertDialog.Builder(this@SignupActivity).apply {
                                                             setTitle("Yeah!")

@@ -43,9 +43,7 @@ class MainActivity : AppCompatActivity() {
         topAppBar = findViewById(R.id.topAppBar)
 
         viewModel.getSession().observe(this) { user ->
-            val token = user.token
-
-            topAppBar.subtitle = user.email
+            topAppBar.subtitle = user.name
         }
 
         val btn1: Button = findViewById(R.id.button1)

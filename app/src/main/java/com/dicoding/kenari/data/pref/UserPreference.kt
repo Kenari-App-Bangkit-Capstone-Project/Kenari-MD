@@ -18,6 +18,12 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
         dataStore.edit { preferences ->
             preferences[EMAIL_KEY] = user.email
             preferences[TOKEN_KEY] = user.token
+            preferences[USER_ID] = user.userId
+            preferences[NAME] = user.name
+            preferences[LABEL] = user.label
+            preferences[ADDRESS] = user.address
+            preferences[UNIVERSITY] = user.university
+            preferences[PERSONALITY] = user.personality
             preferences[IS_LOGIN_KEY] = true
         }
     }
@@ -25,9 +31,15 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
     fun getSession(): Flow<UserModel> {
         return dataStore.data.map { preferences ->
             UserModel(
-                preferences[EMAIL_KEY] ?: "",
-                preferences[TOKEN_KEY] ?: "",
-                preferences[IS_LOGIN_KEY] ?: false
+            preferences[EMAIL_KEY] ?: "",
+            preferences[TOKEN_KEY] ?: "",
+            preferences[USER_ID] ?: "",
+            preferences[NAME] ?: "",
+            preferences[LABEL] ?: "",
+            preferences[ADDRESS] ?: "",
+            preferences[UNIVERSITY] ?: "",
+            preferences[PERSONALITY] ?: "",
+            preferences[IS_LOGIN_KEY] ?: false
             )
         }
     }
@@ -41,9 +53,14 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
     companion object {
         @Volatile
         private var INSTANCE: UserPreference? = null
-
         private val EMAIL_KEY = stringPreferencesKey("email")
         private val TOKEN_KEY = stringPreferencesKey("token")
+        private val USER_ID = stringPreferencesKey("userId")
+        private val NAME = stringPreferencesKey("name")
+        private val LABEL = stringPreferencesKey("label")
+        private val ADDRESS = stringPreferencesKey("address")
+        private val UNIVERSITY = stringPreferencesKey("university")
+        private val PERSONALITY = stringPreferencesKey("personality")
         private val IS_LOGIN_KEY = booleanPreferencesKey("isLogin")
 
         fun getInstance(dataStore: DataStore<Preferences>): UserPreference {
