@@ -3,4 +3,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="cyan">#20BAB3</color>
+    <color name="transparant">#05F5F5F5</color>
+    <color name="blue_500">#569DAA</color>
+    <color name="blue_200">#87CBB9</color>
+    <color name="gren_light">#B9EDDD</color>
+    <color name="blue">#2A4BA1</color>
+    <color name="gray">#D9D9D9</color>
 </resources>

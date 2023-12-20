@@ -20,4 +20,5 @@
     <string name="lorem">Lorem ipsum dolor sit amet consectetur. Ultricies amet aliquet donec vulputate. Quisque purus vestibulum urna diam eu ultrices arcu convallis. A leo pretium sit ultricies feugiat sociis libero.</string>
     <string name="desc_feature2">MBTI Test merupakan fitur ...dimana...</string>
     <string name="desc_feature3">Chatbot merupakan fitur ...dimana...</string>
+    <string name="sample_message">This is a sample message that will appear</string>
 </resources>
