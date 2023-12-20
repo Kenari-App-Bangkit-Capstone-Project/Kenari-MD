@@ -11,21 +11,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_scrollFlags="scroll|enterAlways|snap"
-        android:backgroundTint="@color/cyan"
-        tools:ignore="MissingConstraints">
+        tools:ignore="MissingConstraints"
+        android:paddingTop="30dp">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:menu="@menu/menu"
-            app:navigationIconTint="@color/white"
-            app:subtitle="@string/app_name2"
-            app:title="@string/app_name"
-            app:navigationIcon="@drawable/baseline_account_box_24">
+            app:subtitle="@string/app_name"
+            app:title="Halo 👋"
+            app:titleTextAppearance="@style/ToolbarTitleText"
+            app:subtitleTextAppearance="@style/ToolbarSubtitleText"
+            app:navigationIcon="@drawable/user_profile"
+            android:paddingStart="30dp"
+            android:paddingEnd="16dp">
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
-    
+
     <!--<ImageView
         android:id="@+id/imageView1"
         android:layout_width="200dp"

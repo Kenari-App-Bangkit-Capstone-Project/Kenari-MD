@@ -16,6 +16,7 @@ import com.dicoding.kenari.view.chat.ChatActivity
 import com.dicoding.kenari.view.chatbot.ChatbotActivity
 import com.dicoding.kenari.view.test.TestActivity
 import com.dicoding.kenari.view.welcome.WelcomeActivity
+import com.google.android.material.appbar.MaterialToolbar
 
 class MainActivity : AppCompatActivity() {
     private val viewModel by viewModels<MainViewModel> {
@@ -23,10 +24,29 @@ class MainActivity : AppCompatActivity() {
     }
     private lateinit var binding: ActivityMainBinding
 
+    private lateinit var topAppBar: MaterialToolbar
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        viewModel.getSession().observe(this) { user ->
+            if (!user.isLogin) {
+                startActivity(Intent(this, WelcomeActivity::class.java))
+                finish()
+            }
+        }
+
+        setContentView(R.layout.activity_main)
+
+        topAppBar = findViewById(R.id.topAppBar)
+
+        viewModel.getSession().observe(this) { user ->
+            val token = user.token
+
+            topAppBar.subtitle = user.email
+        }
 
         val btn1: Button = findViewById(R.id.button1)
         btn1.setOnClickListener {
@@ -64,13 +84,6 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 else -> false
-            }
-        }
-
-        viewModel.getSession().observe(this) { user ->
-            if (!user.isLogin) {
-                startActivity(Intent(this, WelcomeActivity::class.java))
-                finish()
             }
         }
 
