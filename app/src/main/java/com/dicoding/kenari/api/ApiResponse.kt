@@ -1,6 +1,7 @@
 package com.dicoding.kenari.api
 
 import com.squareup.moshi.Json
+import java.util.Date
 
 // Login Response
 data class LoginResponse(
@@ -46,4 +47,38 @@ data class UserData(
 data class RegisterResponse(
     @Json(name = "message")
     val message: String? = null,
+)
+
+// Chatbot History Response
+data class ChatbotHistoryResponse(
+    @Json(name = "message")
+    val message: String? = null,
+
+    @Json(name = "data")
+    val data: ChatbotHistoryData? = null
+)
+
+data class ChatbotHistoryData(
+    @Json(name = "chatHistories")
+    val chatHistories: List<ChatHistory>? = null
+)
+
+data class ChatHistory(
+    @Json(name = "id")
+    val id: Int? = null,
+
+    @Json(name = "user_id")
+    val userId: String? = null,
+
+    @Json(name = "user_input")
+    val userInput: String? = null,
+
+    @Json(name = "response")
+    val response: String? = null,
+
+    @Json(name = "status")
+    val status: String? = null,
+
+    @Json(name = "createdAt")
+    val createdAt: Date? = null
 )

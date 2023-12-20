@@ -13,7 +13,13 @@ import java.util.concurrent.TimeUnit
 object ApiConfig {
     private const val BASE_URL = "https://backend-dot-capstoneke1.et.r.appspot.com/api/v1/"
 
-    private  val client : Retrofit
+    val apiClient: ApiClient = ApiClient()
+
+    fun initialize(userToken: String) {
+        apiClient.userToken = userToken
+    }
+
+    private val client : Retrofit
 
         get() {
             val gson = GsonBuilder()
@@ -23,9 +29,11 @@ object ApiConfig {
             val interceptor = HttpLoggingInterceptor()
             interceptor.level = HttpLoggingInterceptor.Level.BODY
 
+            val authInterceptor = AuthInterceptor(apiClient.userToken)
+
             val client : OkHttpClient = OkHttpClient.Builder()
                 .addInterceptor(interceptor)
-                .addInterceptor(AuthInterceptor())
+                .addInterceptor(authInterceptor)
                 .connectTimeout(40, TimeUnit.SECONDS)
                 .readTimeout(40, TimeUnit.SECONDS)
                 .writeTimeout(40, TimeUnit.SECONDS)
@@ -42,15 +50,19 @@ object ApiConfig {
         get() = client.create(ApiService::class.java)
 }
 
-class AuthInterceptor : Interceptor {
+class AuthInterceptor(private val userToken: String) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
-        val token = "YOUR_BEARER_TOKEN"
 
         val newRequest: Request = originalRequest.newBuilder()
-            .header("Authorization", "Bearer $token")
+            .header("Authorization", "Bearer $userToken")
             .build()
 
         return chain.proceed(newRequest)
     }
+}
+
+// Kelas ApiClient
+class ApiClient {
+    var userToken: String = ""
 }

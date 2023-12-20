@@ -8,7 +8,10 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Button
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.dicoding.kenari.R
+import com.dicoding.kenari.api.ApiConfig
+import com.dicoding.kenari.data.pref.UserPreference
 import com.dicoding.kenari.databinding.ActivityMainBinding
 import com.dicoding.kenari.view.ViewModelFactory
 import com.dicoding.kenari.view.about.AboutActivity
@@ -17,6 +20,7 @@ import com.dicoding.kenari.view.chatbot.ChatbotActivity
 import com.dicoding.kenari.view.test.TestActivity
 import com.dicoding.kenari.view.welcome.WelcomeActivity
 import com.google.android.material.appbar.MaterialToolbar
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private val viewModel by viewModels<MainViewModel> {
@@ -25,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private lateinit var topAppBar: MaterialToolbar
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +41,12 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, WelcomeActivity::class.java))
                 finish()
             }
+
+            lifecycleScope.launch {
+                ApiConfig.initialize(user.token)
+            }
         }
+
 
         setContentView(R.layout.activity_main)
 

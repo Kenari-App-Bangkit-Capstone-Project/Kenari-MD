@@ -56,18 +56,19 @@
                 android:layout_marginEnd="18dp"
                 android:layout_weight="1"
                 android:background="@color/transparant"
-                android:maxLines="3"
-                android:scrollbars="vertical"
-                android:textColor="@color/black"
+                android:hint="@string/input_chatbot_hint"
                 android:inputType="textMultiLine"
-                android:hint="Tulis pesan" />
+                android:maxLines="3"
+                android:minHeight="48dp"
+                android:scrollbars="vertical"
+                android:textColor="@color/black" />
 
             <ImageView
                 android:id="@+id/btn_send"
                 android:layout_width="0dp"
                 android:layout_height="35dp"
                 android:layout_weight=".1"
-                android:layout_marginRight="4dp"
+                android:layout_marginEnd="4dp"
                 android:layout_marginTop="4dp"
                 android:src="@drawable/send_icon" />
         </LinearLayout>
