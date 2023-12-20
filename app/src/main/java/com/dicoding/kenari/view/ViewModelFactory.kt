@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dicoding.kenari.data.UserRepository
 import com.dicoding.kenari.data.di.Injection
+import com.dicoding.kenari.view.chatbot.ChatbotViewModel
 import com.dicoding.kenari.view.login.LoginViewModel
 import com.dicoding.kenari.view.main.MainViewModel
 import com.dicoding.kenari.view.signup.SignupViewModel
@@ -22,6 +23,9 @@ class ViewModelFactory(private val repository: UserRepository) : ViewModelProvid
             }
             modelClass.isAssignableFrom(SignupViewModel::class.java) -> {
                 SignupViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(ChatbotViewModel::class.java) -> {
+                ChatbotViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

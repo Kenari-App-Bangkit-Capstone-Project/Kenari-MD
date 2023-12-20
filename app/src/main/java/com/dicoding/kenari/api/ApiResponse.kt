@@ -60,18 +60,18 @@ data class ChatbotHistoryResponse(
 
 data class ChatbotHistoryData(
     @Json(name = "chatHistories")
-    val chatHistories: List<ChatHistory>? = null
+    val chatHistories: List<ChatbotHistory>? = null
 )
 
-data class ChatHistory(
+data class ChatbotHistory(
     @Json(name = "id")
     val id: Int? = null,
 
     @Json(name = "user_id")
-    val userId: String? = null,
+    val user_id: String? = null,
 
     @Json(name = "user_input")
-    val userInput: String? = null,
+    val user_input : String? = null,
 
     @Json(name = "response")
     val response: String? = null,
