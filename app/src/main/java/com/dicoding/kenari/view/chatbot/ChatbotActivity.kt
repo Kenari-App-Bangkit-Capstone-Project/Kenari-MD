@@ -1,5 +1,6 @@
 package com.dicoding.kenari.view.chatbot
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +16,16 @@ import com.dicoding.kenari.R
 import com.dicoding.kenari.adapter.ChatbotAdapter
 import com.dicoding.kenari.api.ApiConfig
 import com.dicoding.kenari.api.ChatbotHistoryResponse
+import com.dicoding.kenari.api.LoginRequest
+import com.dicoding.kenari.api.LoginResponse
+import com.dicoding.kenari.api.MLApiConfig
+import com.dicoding.kenari.api.ModelRequest
+import com.dicoding.kenari.api.ModelResponse
+import com.dicoding.kenari.data.pref.UserModel
+import com.dicoding.kenari.databinding.ActivityChatbotBinding
+import com.dicoding.kenari.databinding.ActivityLoginBinding
 import com.dicoding.kenari.view.ViewModelFactory
+import com.dicoding.kenari.view.main.MainActivity
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -24,10 +35,12 @@ class ChatbotActivity : AppCompatActivity() {
     private val viewModel by viewModels<ChatbotViewModel> {
         ViewModelFactory.getInstance(this)
     }
+    private lateinit var binding: ActivityChatbotBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_chatbot)
+        binding = ActivityChatbotBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         supportActionBar?.title = "Chatbot"
         supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#20BAB3")))
@@ -39,6 +52,11 @@ class ChatbotActivity : AppCompatActivity() {
             }
         }
 
+        setupView()
+        setupAction()
+    }
+
+    private fun setupView() {
         ApiConfig.instanceRetrofit.getChatbotHistory()
             .enqueue(object : Callback<ChatbotHistoryResponse> {
                 override fun onResponse(call: Call<ChatbotHistoryResponse>, response: Response<ChatbotHistoryResponse>) {
@@ -51,8 +69,6 @@ class ChatbotActivity : AppCompatActivity() {
                                 Toast.makeText(this@ChatbotActivity, responseBody.message, Toast.LENGTH_SHORT).show()
                             } else {
                                 val chatbotHistory = responseBody.data.chatHistories
-
-                                Log.i("chatbotHistory", chatbotHistory.toString())
 
                                 val recyclerView: RecyclerView = findViewById(R.id.rv_chat)
                                 val layoutManager = LinearLayoutManager(this@ChatbotActivity)
@@ -72,6 +88,46 @@ class ChatbotActivity : AppCompatActivity() {
                 }
             })
     }
+
+    private fun setupAction() {
+        binding.btnSend.setOnClickListener {
+            val userInput = binding.edtMessage.text.toString()
+
+            if (userInput.isEmpty()) {
+                AlertDialog.Builder(this).apply {
+                    setTitle("Error!")
+                    setMessage("Pesan tidak boleh kosong")
+                    create()
+                    show()
+                }
+            } else {
+                Log.i("user_input", userInput)
+                binding.edtMessage.text.clear()
+
+                val modelRequest = ModelRequest(userInput)
+                MLApiConfig.instanceRetrofit.getModelResponse(modelRequest)
+                    .enqueue(object : Callback<ModelResponse> {
+                        override fun onResponse(call: Call<ModelResponse>, response: Response<ModelResponse>) {
+
+                            if (response.isSuccessful) {
+                                val responseBody = response.body()
+
+                                if (responseBody != null) {
+                                    Log.i("Model Response", responseBody.toString())
+                                }
+                            }
+                        }
+
+                        override fun onFailure(call: Call<ModelResponse>, t: Throwable) {
+                            // Handle failure here if needed
+                            Log.e("ChatbotActivity", "Error", t)
+                            Toast.makeText(this@ChatbotActivity, "Tidak dapat terhubung ke server", Toast.LENGTH_SHORT).show()
+                        }
+                    })
+            }
+        }
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         onBackPressedDispatcher.onBackPressed()
         return true

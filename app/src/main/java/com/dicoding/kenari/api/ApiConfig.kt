@@ -50,6 +50,39 @@ object ApiConfig {
         get() = client.create(ApiService::class.java)
 }
 
+object MLApiConfig {
+    private const val BASE_URL = "https://kenari-chatbot-api-vm2wxzpccq-et.a.run.app"
+
+    private val client : Retrofit
+
+        get() {
+            val gson = GsonBuilder()
+                .setLenient()
+                .create()
+
+            val interceptor = HttpLoggingInterceptor()
+            interceptor.level = HttpLoggingInterceptor.Level.BODY
+
+
+            val client : OkHttpClient = OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .connectTimeout(40, TimeUnit.SECONDS)
+                .readTimeout(40, TimeUnit.SECONDS)
+                .writeTimeout(40, TimeUnit.SECONDS)
+                .build()
+
+            return Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .client(client)
+                .build()
+        }
+
+    val instanceRetrofit : ApiServiceML
+        get() = client.create(ApiServiceML::class.java)
+}
+
+
 class AuthInterceptor(private val userToken: String) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()

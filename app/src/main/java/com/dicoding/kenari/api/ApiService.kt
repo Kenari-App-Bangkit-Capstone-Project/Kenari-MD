@@ -29,3 +29,14 @@ interface ApiService {
     @GET("chatbot/chat")
     fun getChatbotHistory(): Call<ChatbotHistoryResponse>
 }
+
+
+
+//API Service ML
+data class ModelRequest(
+    val user_input: String
+)
+interface ApiServiceML {
+    @POST("chatbot/response")
+    fun getModelResponse(@Body modelRequest: ModelRequest): Call<ModelResponse>
+}

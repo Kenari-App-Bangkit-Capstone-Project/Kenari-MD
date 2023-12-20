@@ -82,3 +82,10 @@ data class ChatbotHistory(
     @Json(name = "createdAt")
     val createdAt: Date? = null
 )
+
+//  ML Chatbot Response
+data class ModelResponse(
+    val tag: String,
+    val user_input: String,
+    val model_response: String
+)
