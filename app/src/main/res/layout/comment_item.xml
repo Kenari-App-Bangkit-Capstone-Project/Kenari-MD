@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <LinearLayout
+        android:id="@+id/user_comment_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:orientation="vertical"
+        android:background="@drawable/bot_round_box"
+        android:backgroundTint="@color/gray"
+        android:padding="8dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="10dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bot_round_box">
+
+                <ImageView
+                    android:id="@+id/iv_user"
+                    android:layout_width="37dp"
+                    android:layout_height="37dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/user_profile"
+                    tools:ignore="MissingConstraints" />
+                <TextView
+                    android:id="@+id/user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@id/iv_user"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Username" />
+                <TextView
+                    android:id="@+id/comment_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginStart="15dp"
+                    android:textSize="10sp"
+                    app:layout_constraintStart_toEndOf="@id/iv_user"
+                    app:layout_constraintTop_toBottomOf="@+id/user_name"
+                    tools:text="20 Jan 2023" />
+
+                <TextView
+                    android:id="@+id/comment_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/lorem"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/comment_date" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</RelativeLayout>

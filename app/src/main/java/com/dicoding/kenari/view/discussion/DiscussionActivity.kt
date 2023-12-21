@@ -69,8 +69,6 @@ class DiscussionActivity : AppCompatActivity() {
 
                                 recyclerView.layoutManager = layoutManager
                                 recyclerView.adapter = adapter
-
-                                Log.i("Data Diskusi", dicussionList.toString())
                             }
                         }
                     }
