@@ -36,8 +36,11 @@ interface ApiService {
     
     @POST("chatbot/save")
     fun saveChatResponse(@Body saveChatResponseRequest: SaveChatResponseRequest): Call<SaveChatResponse>
-}
 
+//    Diskusi
+    @GET("discussion/all")
+    fun getAllDiscussion(): Call<GetAllDiscussionsResponse>
+}
 
 
 //API Service ML

@@ -19,8 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:menu="@menu/menu"
-            app:subtitle="   Kenari"
-            app:title="    Halo 👋"
+            app:subtitle="  Kenari"
+            app:title="   Halo 👋"
             app:titleTextAppearance="@style/ToolbarTitleText"
             app:subtitleTextAppearance="@style/ToolbarSubtitleText"
             app:navigationIcon="@drawable/user_profile"
@@ -65,7 +65,7 @@
 
         <Button
             android:id="@+id/button1"
-            android:text="Chat"
+            android:text="Forum Diskusi"
             android:drawableLeft="@drawable/chat"
             android:layout_width="200dp"
             android:layout_height="60dp"

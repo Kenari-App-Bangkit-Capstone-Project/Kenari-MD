@@ -17,6 +17,7 @@ import com.dicoding.kenari.view.ViewModelFactory
 import com.dicoding.kenari.view.about.AboutActivity
 import com.dicoding.kenari.view.chat.ChatActivity
 import com.dicoding.kenari.view.chatbot.ChatbotActivity
+import com.dicoding.kenari.view.discussion.DiscussionActivity
 import com.dicoding.kenari.view.test.TestActivity
 import com.dicoding.kenari.view.welcome.WelcomeActivity
 import com.google.android.material.appbar.MaterialToolbar
@@ -67,12 +68,12 @@ class MainActivity : AppCompatActivity() {
         topAppBar = binding.topAppBar
 
         viewModel.getSession().observe(this) { user ->
-            topAppBar.subtitle = "   ${user.name}"
+            topAppBar.subtitle = "  ${user.name}"
         }
 
         val btn1: Button = findViewById(R.id.button1)
         btn1.setOnClickListener {
-            val intent = Intent(this, ChatActivity::class.java)
+            val intent = Intent(this, DiscussionActivity::class.java)
             startActivity(intent)
         }
 
