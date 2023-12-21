@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="20dp"
     tools:context=".view.discussion.DetailDiscussionActivity">
 
     <androidx.cardview.widget.CardView
@@ -16,7 +17,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_gravity="center_horizontal"
-            android:paddingVertical="10dp"
+            android:paddingBottom="10dp"
             android:layout_marginTop="10dp"
             android:layout_height="wrap_content">
 
@@ -31,7 +32,7 @@
                 android:src="@drawable/user_profile"
                 tools:ignore="MissingConstraints" />
             <TextView
-                android:id="@+id/user_name"
+                android:id="@+id/discussionUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -41,29 +42,29 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Username" />
             <TextView
-                android:id="@+id/dicussion_date"
+                android:id="@+id/dicussionDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:layout_marginStart="15dp"
                 android:textSize="10sp"
                 app:layout_constraintStart_toEndOf="@id/iv_user"
-                app:layout_constraintTop_toBottomOf="@+id/user_name"
-                tools:text="20 Jan 2023" />
+                app:layout_constraintTop_toBottomOf="@+id/discussionUsername"
+                tools:text="..." />
 
             <TextView
-                android:id="@+id/discussion_text"
+                android:id="@+id/discussionText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="@string/lorem"
+                android:text="..."
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dicussion_date"/>
+                app:layout_constraintTop_toBottomOf="@+id/dicussionDate"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
@@ -71,14 +72,14 @@
         android:id="@+id/comment_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Kometar"
+        android:text="Komentar"
         app:layout_constraintTop_toBottomOf="@id/cardView1"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="40dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_chat"
+        android:id="@+id/rv_comments"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="90dp"
@@ -115,7 +116,7 @@
             android:padding="10dp">
 
             <EditText
-                android:id="@+id/edt_message"
+                android:id="@+id/edtComment"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="18dp"

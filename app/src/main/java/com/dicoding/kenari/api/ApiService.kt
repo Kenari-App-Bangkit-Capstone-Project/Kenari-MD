@@ -5,6 +5,7 @@ import retrofit2.Call
 import retrofit2.http.Body
 import com.dicoding.kenari.api.LoginResponse
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 data class LoginRequest(
     val email: String,
@@ -19,6 +20,10 @@ data class RegisterRequest(
 data class SaveChatResponseRequest(
     val user_input: String,
     val response: String,
+)
+
+data class CommentRequest(
+    val comment: String
 )
 
 interface ApiService {
@@ -40,6 +45,15 @@ interface ApiService {
 //    Diskusi
     @GET("discussion/all")
     fun getAllDiscussion(): Call<GetAllDiscussionsResponse>
+
+    @GET("discussion/detail/{id}")
+    fun getDiscussionDetail(@Path("id") discussionId: Int): Call<GetDiscussionByIdResponse>
+
+    @POST("discussion/comment/add/{id}")
+    fun addDiscussionComment(
+        @Path("id") discussionId: Int,
+        @Body commentRequest: CommentRequest
+    ): Call<Any>
 }
 
 

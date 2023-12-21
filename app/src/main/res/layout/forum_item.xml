@@ -8,6 +8,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_discussion_item"
         android:layout_width="match_parent"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"

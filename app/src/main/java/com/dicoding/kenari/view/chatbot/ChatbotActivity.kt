@@ -194,7 +194,7 @@ class ChatbotActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
 
         recyclerView.post {
-            recyclerView.smoothScrollToPosition(adapter.itemCount - 1)
+            recyclerView.scrollToPosition(adapter.itemCount - 1)
         }
     }
 

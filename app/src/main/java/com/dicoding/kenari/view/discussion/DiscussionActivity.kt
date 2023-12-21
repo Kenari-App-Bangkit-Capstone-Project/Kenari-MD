@@ -11,7 +11,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.kenari.R
-import com.dicoding.kenari.adapter.ChatbotAdapter
 import com.dicoding.kenari.adapter.DiscussionAdapter
 import com.dicoding.kenari.api.ApiConfig
 import com.dicoding.kenari.api.Discussion
@@ -61,11 +60,11 @@ class DiscussionActivity : AppCompatActivity() {
                             if (responseBody.data == null) {
                                 Toast.makeText(this@DiscussionActivity, responseBody.message, Toast.LENGTH_SHORT).show()
                             } else {
-                                val dicussionList: List<Discussion>? = responseBody.data.discussions
+                                val discussionList: List<Discussion>? = responseBody.data.discussions
 
                                 val recyclerView: RecyclerView = findViewById(R.id.rv_discussion)
                                 val layoutManager = LinearLayoutManager(this@DiscussionActivity)
-                                val adapter = DiscussionAdapter(dicussionList)
+                                val adapter = DiscussionAdapter(this@DiscussionActivity, discussionList)
 
                                 recyclerView.layoutManager = layoutManager
                                 recyclerView.adapter = adapter

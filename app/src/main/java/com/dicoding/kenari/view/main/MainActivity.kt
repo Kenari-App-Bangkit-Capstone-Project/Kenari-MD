@@ -11,11 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.dicoding.kenari.R
 import com.dicoding.kenari.api.ApiConfig
-import com.dicoding.kenari.data.pref.UserPreference
 import com.dicoding.kenari.databinding.ActivityMainBinding
 import com.dicoding.kenari.view.ViewModelFactory
 import com.dicoding.kenari.view.about.AboutActivity
-import com.dicoding.kenari.view.chat.ChatActivity
 import com.dicoding.kenari.view.chatbot.ChatbotActivity
 import com.dicoding.kenari.view.discussion.DiscussionActivity
 import com.dicoding.kenari.view.test.TestActivity
