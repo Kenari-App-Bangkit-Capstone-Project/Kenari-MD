@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         topAppBar = binding.topAppBar
 
         viewModel.getSession().observe(this) { user ->
-            topAppBar.subtitle = user.name
+            topAppBar.subtitle = "   ${user.name}"
         }
 
         val btn1: Button = findViewById(R.id.button1)
