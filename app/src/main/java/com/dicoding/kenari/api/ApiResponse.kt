@@ -89,3 +89,18 @@ data class ModelResponse(
     val user_input: String,
     val model_response: String
 )
+
+data class SaveChatResponse(
+    val message: String,
+    val data: ChatLogData
+)
+
+data class ChatLogData(
+    val log_chat: LogChat
+)
+
+data class LogChat(
+    val user_input: String,
+    val response: String,
+    val user_id: String
+)

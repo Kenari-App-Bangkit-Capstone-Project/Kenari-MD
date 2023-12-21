@@ -6,6 +6,10 @@ import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -16,26 +20,30 @@ import com.dicoding.kenari.R
 import com.dicoding.kenari.adapter.ChatbotAdapter
 import com.dicoding.kenari.api.ApiConfig
 import com.dicoding.kenari.api.ChatbotHistoryResponse
-import com.dicoding.kenari.api.LoginRequest
-import com.dicoding.kenari.api.LoginResponse
 import com.dicoding.kenari.api.MLApiConfig
 import com.dicoding.kenari.api.ModelRequest
 import com.dicoding.kenari.api.ModelResponse
-import com.dicoding.kenari.data.pref.UserModel
+import com.dicoding.kenari.api.SaveChatResponse
+import com.dicoding.kenari.api.SaveChatResponseRequest
 import com.dicoding.kenari.databinding.ActivityChatbotBinding
-import com.dicoding.kenari.databinding.ActivityLoginBinding
 import com.dicoding.kenari.view.ViewModelFactory
-import com.dicoding.kenari.view.main.MainActivity
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
+data class ChatbotChat(
+    val user_input: String,
+    val response: String
+)
 
 class ChatbotActivity : AppCompatActivity() {
     private val viewModel by viewModels<ChatbotViewModel> {
         ViewModelFactory.getInstance(this)
     }
     private lateinit var binding: ActivityChatbotBinding
+
+    private val chatbotList: MutableList<ChatbotChat> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,12 +78,16 @@ class ChatbotActivity : AppCompatActivity() {
                             } else {
                                 val chatbotHistory = responseBody.data.chatHistories
 
-                                val recyclerView: RecyclerView = findViewById(R.id.rv_chat)
-                                val layoutManager = LinearLayoutManager(this@ChatbotActivity)
-                                val adapter = chatbotHistory?.let { ChatbotAdapter(it) }
+                                val nonNullableChatbotHistory = chatbotHistory ?: emptyList()
 
-                                recyclerView.layoutManager = layoutManager
-                                recyclerView.adapter = adapter
+                                for (chatHistory in nonNullableChatbotHistory) {
+                                    val userInput = chatHistory.user_input ?: "No user input"
+                                    val response = chatHistory.response ?: "No response"
+                                    val chatMessage = ChatbotChat(userInput, response)
+                                    chatbotList.add(chatMessage)
+                                }
+
+                                updateChatList(chatbotList)
                             }
                         }
                     }
@@ -90,41 +102,107 @@ class ChatbotActivity : AppCompatActivity() {
     }
 
     private fun setupAction() {
+        val edtMessage: EditText = findViewById(R.id.edt_message)
+
+        edtMessage.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE || (event != null && event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER)) {
+                // Handle Enter key pressed
+                sendMessage()
+                return@setOnEditorActionListener true
+            }
+            return@setOnEditorActionListener false
+        }
+
         binding.btnSend.setOnClickListener {
-            val userInput = binding.edtMessage.text.toString()
+            sendMessage()
+        }
+    }
 
-            if (userInput.isEmpty()) {
-                AlertDialog.Builder(this).apply {
-                    setTitle("Error!")
-                    setMessage("Pesan tidak boleh kosong")
-                    create()
-                    show()
-                }
-            } else {
-                Log.i("user_input", userInput)
-                binding.edtMessage.text.clear()
+    private fun sendMessage() {
+        val userInput = binding.edtMessage.text.toString()
 
-                val modelRequest = ModelRequest(userInput)
-                MLApiConfig.instanceRetrofit.getModelResponse(modelRequest)
-                    .enqueue(object : Callback<ModelResponse> {
-                        override fun onResponse(call: Call<ModelResponse>, response: Response<ModelResponse>) {
+        if (userInput.isEmpty()) {
+            AlertDialog.Builder(this).apply {
+                setTitle("Error!")
+                setMessage("Pesan tidak boleh kosong")
+                create()
+                show()
+            }
+        } else {
+            binding.edtMessage.text.clear()
 
-                            if (response.isSuccessful) {
-                                val responseBody = response.body()
+            val chatMessage = ChatbotChat(userInput, "...")
+            chatbotList.add(chatMessage)
 
-                                if (responseBody != null) {
-                                    Log.i("Model Response", responseBody.toString())
-                                }
+            updateChatList(chatbotList)
+
+            hideKeyboard()
+
+            val modelRequest = ModelRequest(userInput)
+            MLApiConfig.instanceRetrofit.getModelResponse(modelRequest)
+                .enqueue(object : Callback<ModelResponse> {
+                    override fun onResponse(call: Call<ModelResponse>, response: Response<ModelResponse>) {
+
+                        if (response.isSuccessful) {
+                            val responseBody = response.body()
+
+                            if (responseBody != null) {
+                                Log.i("Model Response", responseBody.toString())
+                                val lastChat = chatbotList.last()
+                                val updatedChat = lastChat.copy(response = responseBody.model_response)
+                                chatbotList[chatbotList.size - 1] = updatedChat
+
+                                updateChatList(chatbotList)
+
+                                val saveChatResponseRequest = SaveChatResponseRequest(
+                                    userInput, responseBody.model_response
+                                )
+                                ApiConfig.instanceRetrofit.saveChatResponse(saveChatResponseRequest)
+                                    .enqueue(object : Callback<SaveChatResponse> {
+                                        override fun onResponse(call: Call<SaveChatResponse>, response: Response<SaveChatResponse>) {
+
+                                            if (response.isSuccessful) {
+                                                Log.i("Sukses simpan chat", response.body().toString())
+                                            }
+                                        }
+
+                                        override fun onFailure(call: Call<SaveChatResponse>, t: Throwable) {
+                                            // Handle failure here if needed
+                                            Log.e("ChatbotActivity", "Error", t)
+                                            Toast.makeText(this@ChatbotActivity, "Tidak dapat terhubung ke server", Toast.LENGTH_SHORT).show()
+                                        }
+                                    })
                             }
                         }
+                    }
 
-                        override fun onFailure(call: Call<ModelResponse>, t: Throwable) {
-                            // Handle failure here if needed
-                            Log.e("ChatbotActivity", "Error", t)
-                            Toast.makeText(this@ChatbotActivity, "Tidak dapat terhubung ke server", Toast.LENGTH_SHORT).show()
-                        }
-                    })
-            }
+                    override fun onFailure(call: Call<ModelResponse>, t: Throwable) {
+                        // Handle failure here if needed
+                        Log.e("ChatbotActivity", "Error", t)
+                        Toast.makeText(this@ChatbotActivity, "Tidak dapat terhubung ke server", Toast.LENGTH_SHORT).show()
+                    }
+                })
+        }
+    }
+
+    private fun updateChatList(chatbotList: List<ChatbotChat>) {
+        val recyclerView: RecyclerView = findViewById(R.id.rv_chat)
+        val layoutManager = LinearLayoutManager(this@ChatbotActivity)
+        val adapter = ChatbotAdapter(chatbotList)
+
+        recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = adapter
+
+        recyclerView.post {
+            recyclerView.smoothScrollToPosition(adapter.itemCount - 1)
+        }
+    }
+
+    private fun hideKeyboard() {
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        val view = currentFocus
+        if (view != null) {
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
 

@@ -7,8 +7,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.kenari.R
 import com.dicoding.kenari.api.ChatbotHistory
+import com.dicoding.kenari.view.chatbot.ChatbotChat
 
-class ChatbotAdapter (private val chatMessages: List<ChatbotHistory>) : RecyclerView.Adapter<ChatbotAdapter.ChatViewHolder>()  {
+class ChatbotAdapter (private val chatMessages: List<ChatbotChat>) : RecyclerView.Adapter<ChatbotAdapter.ChatViewHolder>()  {
     class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val userTextView: TextView = itemView.findViewById(R.id.user_message)
         val botTextView: TextView = itemView.findViewById(R.id.bot_message)
@@ -21,8 +22,8 @@ class ChatbotAdapter (private val chatMessages: List<ChatbotHistory>) : Recycler
 
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         val chatMessage = chatMessages[position]
-        holder.userTextView.text = chatMessage.user_input.toString()
-        holder.botTextView.text = chatMessage.response.toString()
+        holder.userTextView.text = chatMessage.user_input
+        holder.botTextView.text = chatMessage.response
     }
 
     override fun getItemCount(): Int {

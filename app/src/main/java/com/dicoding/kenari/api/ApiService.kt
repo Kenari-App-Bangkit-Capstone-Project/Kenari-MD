@@ -16,6 +16,11 @@ data class RegisterRequest(
     val password: String
 )
 
+data class SaveChatResponseRequest(
+    val user_input: String,
+    val response: String,
+)
+
 interface ApiService {
 
 //    Auth
@@ -28,6 +33,9 @@ interface ApiService {
 //    Chatbot
     @GET("chatbot/chat")
     fun getChatbotHistory(): Call<ChatbotHistoryResponse>
+    
+    @POST("chatbot/save")
+    fun saveChatResponse(@Body saveChatResponseRequest: SaveChatResponseRequest): Call<SaveChatResponse>
 }
 
 
