@@ -65,17 +65,16 @@ class Test10Activity : AppCompatActivity() {
             viewModel.addMBTI("C057")
         }
 
-        var selectedCharacter: MbtiResultRequest? = null
+        var selectedCharacter: List<String>? = null
 
         viewModel.getSelectedMBTI().observe(this) { selectedMBTI ->
-            selectedCharacter = MbtiResultRequest(selectedMBTI.distinct())
+            selectedCharacter = selectedMBTI.distinct()
         }
 
-        Toast.makeText(this@Test10Activity, "Tes telah selesai, berikut hasilnya!", Toast.LENGTH_SHORT).show()
 
-        // Cek apakah selectedCharacter sudah diinisialisasi atau belum
-        if (selectedCharacter != null) {
-            ApiConfig.instanceRetrofit.mbtiResult(selectedCharacter!!)
+        if (selectedCharacter != null && selectedCharacter!!.isNotEmpty()) {
+            val selectedChar = MbtiResultRequest(selectedCharacter!!)
+            ApiConfig.instanceRetrofit.mbtiResult(selectedChar)
                 .enqueue(object : Callback<MbtiResultResponse> {
                     override fun onResponse(call: Call<MbtiResultResponse>, response: Response<MbtiResultResponse>) {
 
@@ -87,6 +86,7 @@ class Test10Activity : AppCompatActivity() {
                                 val info = responseBody.data.typeResult.information
 
                                 viewModel.resetMBTI()
+                                Toast.makeText(this@Test10Activity, "Tes telah selesai, berikut hasilnya!", Toast.LENGTH_SHORT).show()
 
                                 val intent = Intent(this@Test10Activity, MbtiResultActivity::class.java)
                                 intent.putExtra("personality", personality)
@@ -105,6 +105,9 @@ class Test10Activity : AppCompatActivity() {
                 })
         } else {
             Toast.makeText(this@Test10Activity, "Gagal mengambil data, silahkan ulangi tes!", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this@Test10Activity, MbtiActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 }

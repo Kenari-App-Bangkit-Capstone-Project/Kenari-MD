@@ -38,6 +38,7 @@ class MbtiActivity : AppCompatActivity() {
         binding.testButton.setOnClickListener {
             val intent = Intent(this, Test1Activity::class.java)
             startActivity(intent)
+            finish()
         }
     }
     override fun onSupportNavigateUp(): Boolean {
