@@ -46,7 +46,6 @@
             android:gravity="center_vertical"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:layout_marginBottom="9dp"
             android:padding="10dp">
 
             <EditText
@@ -58,17 +57,16 @@
                 android:background="@color/transparant"
                 android:hint="@string/input_chatbot_hint"
                 android:maxLines="3"
-                android:minHeight="48dp"
+                android:minHeight="30dp"
                 android:scrollbars="vertical"
                 android:textColor="@color/black" />
 
             <ImageView
                 android:id="@+id/btn_send"
                 android:layout_width="0dp"
-                android:layout_height="35dp"
-                android:layout_weight=".1"
+                android:layout_height="25dp"
+                android:layout_weight=".07"
                 android:layout_marginEnd="4dp"
-                android:layout_marginTop="4dp"
                 android:src="@drawable/send_icon" />
         </LinearLayout>
 
