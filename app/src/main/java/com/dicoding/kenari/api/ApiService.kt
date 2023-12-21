@@ -26,6 +26,11 @@ data class CommentRequest(
     val comment: String
 )
 
+data class AddNewDiscussionRequest(
+    val content: String,
+    val isAnonymous: String
+)
+
 interface ApiService {
 
 //    Auth
@@ -54,6 +59,9 @@ interface ApiService {
         @Path("id") discussionId: Int,
         @Body commentRequest: CommentRequest
     ): Call<Any>
+
+    @POST("discussion/create")
+    fun addNewDiscussion(@Body addNewDiscussionRequest: AddNewDiscussionRequest): Call<Any>
 }
 
 

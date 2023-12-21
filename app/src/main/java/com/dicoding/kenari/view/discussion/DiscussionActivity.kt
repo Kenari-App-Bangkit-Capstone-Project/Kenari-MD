@@ -1,5 +1,6 @@
 package com.dicoding.kenari.view.discussion
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +18,8 @@ import com.dicoding.kenari.api.Discussion
 import com.dicoding.kenari.api.GetAllDiscussionsResponse
 import com.dicoding.kenari.databinding.ActivityDiscussionBinding
 import com.dicoding.kenari.view.ViewModelFactory
+import com.dicoding.kenari.view.chatbot.ChatbotActivity
+import com.dicoding.kenari.view.main.MainActivity
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -43,6 +46,11 @@ class DiscussionActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 ApiConfig.initialize(user.token)
             }
+        }
+
+        binding.btnAdd.setOnClickListener {
+            val intent = Intent(this, AddDiscussionActivity::class.java)
+            startActivity(intent)
         }
 
         setupView()
@@ -82,7 +90,11 @@ class DiscussionActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressedDispatcher.onBackPressed()
+        val intent = Intent(this@DiscussionActivity, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+
+        finishAffinity()
         return true
     }
 }
