@@ -31,6 +31,10 @@ data class AddNewDiscussionRequest(
     val isAnonymous: String
 )
 
+data class MbtiResultRequest(
+    val selected_characters: List<String>
+)
+
 interface ApiService {
 
 //    Auth
@@ -62,6 +66,9 @@ interface ApiService {
 
     @POST("discussion/create")
     fun addNewDiscussion(@Body addNewDiscussionRequest: AddNewDiscussionRequest): Call<Any>
+
+    @POST("mbti/result")
+    fun mbtiResult(@Body mbtiResultRequest: MbtiResultRequest): Call<MbtiResultResponse>
 }
 
 

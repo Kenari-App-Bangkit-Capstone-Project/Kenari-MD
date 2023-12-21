@@ -32,4 +32,10 @@ class MbtiViewModel(
             mbtiRepository.addMBTI(mbtiCode)
         }
     }
+
+    fun resetMBTI() {
+        viewModelScope.launch {
+            mbtiRepository.resetMBTI()
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.dicoding.kenari.view.mbti
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
@@ -34,5 +35,13 @@ class MbtiActivity : AppCompatActivity() {
             }
         }
 
+        binding.testButton.setOnClickListener {
+            val intent = Intent(this, Test1Activity::class.java)
+            startActivity(intent)
+        }
+    }
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return true
     }
 }

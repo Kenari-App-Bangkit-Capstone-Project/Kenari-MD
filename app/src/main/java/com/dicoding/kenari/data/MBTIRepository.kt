@@ -15,6 +15,10 @@ class MBTIRepository private constructor(
         return mbtiPreference.getSelectedMBTI()
     }
 
+    suspend fun resetMBTI() {
+        mbtiPreference.resetMBTI()
+    }
+
     companion object {
         @Volatile
         private var instance: MBTIRepository? = null

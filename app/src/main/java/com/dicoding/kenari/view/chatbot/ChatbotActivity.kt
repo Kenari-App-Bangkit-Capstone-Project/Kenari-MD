@@ -147,7 +147,6 @@ class ChatbotActivity : AppCompatActivity() {
                             val responseBody = response.body()
 
                             if (responseBody != null) {
-                                Log.i("Model Response", responseBody.toString())
                                 val lastChat = chatbotList.last()
                                 val updatedChat = lastChat.copy(response = responseBody.model_response)
                                 chatbotList[chatbotList.size - 1] = updatedChat

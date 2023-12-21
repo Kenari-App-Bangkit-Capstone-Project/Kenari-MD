@@ -53,9 +53,6 @@ class Test4Activity : AppCompatActivity() {
             if (binding.C035.isChecked) {
                 viewModel.addMBTI("C035")
             }
-            if (binding.C040.isChecked) {
-                viewModel.addMBTI("C040")
-            }
             val intent = Intent(this, Test5Activity::class.java)
             startActivity(intent)
             finish()

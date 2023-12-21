@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Kenari"
         tools:targetApi="31">
         <activity
+            android:name=".view.mbti.MbtiResultActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.mbti.Test10Activity"
             android:exported="false" />
         <activity

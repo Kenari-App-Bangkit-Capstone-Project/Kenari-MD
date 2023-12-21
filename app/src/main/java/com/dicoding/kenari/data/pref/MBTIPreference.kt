@@ -27,6 +27,12 @@ class MBTIPreference private constructor(private val dataStore: DataStore<Prefer
         }
     }
 
+    suspend fun resetMBTI() {
+        dataStore.edit { preferences ->
+            preferences[MBTI_KEY] = emptySet()
+        }
+    }
+
     companion object {
         @Volatile
         private var INSTANCE: MBTIPreference? = null
