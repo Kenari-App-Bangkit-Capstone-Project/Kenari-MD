@@ -16,6 +16,8 @@ import com.dicoding.kenari.view.ViewModelFactory
 import com.dicoding.kenari.view.about.AboutActivity
 import com.dicoding.kenari.view.chatbot.ChatbotActivity
 import com.dicoding.kenari.view.discussion.DiscussionActivity
+import com.dicoding.kenari.view.mbti.MbtiActivity
+import com.dicoding.kenari.view.mbti.Test1Activity
 import com.dicoding.kenari.view.test.TestActivity
 import com.dicoding.kenari.view.welcome.WelcomeActivity
 import com.google.android.material.appbar.MaterialToolbar
@@ -77,7 +79,7 @@ class MainActivity : AppCompatActivity() {
 
         val btn2: Button = findViewById(R.id.button2)
         btn2.setOnClickListener {
-            val intent = Intent(this, TestActivity::class.java)
+            val intent = Intent(this, MbtiActivity::class.java)
             startActivity(intent)
         }
 
