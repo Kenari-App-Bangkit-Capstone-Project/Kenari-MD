@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import com.dicoding.kenari.R
 import com.dicoding.kenari.api.ApiConfig
@@ -52,5 +53,27 @@ class Test6Activity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        showExitConfirmationDialog()
+        return true
+    }
+
+    private fun showExitConfirmationDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Konfirmasi")
+        builder.setMessage("Apakah Anda yakin ingin keluar? Data tes Anda tidak akan disimpan.")
+        builder.setPositiveButton("Ya, keluar dari tes") { _, _ ->
+            val intent = Intent(this@Test6Activity, MbtiActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+        builder.setNegativeButton("Batal") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 }

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.dicoding.kenari.api.ApiConfig
@@ -104,10 +105,46 @@ class Test10Activity : AppCompatActivity() {
                     }
                 })
         } else {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Gagal")
+            builder.setMessage("Gagal mengambil data, kayaknya kamu gak pilih satupun jawaban. Silahkan ulangi test")
+            builder.setPositiveButton("Ulangi Tes") { _, _ ->
+                val intent = Intent(this@Test10Activity, Test1Activity::class.java)
+                startActivity(intent)
+                finish()
+            }
+            builder.setNegativeButton("Batal") { dialog, _ ->
+                val intent = Intent(this@Test10Activity, MbtiActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+
+            val dialog = builder.create()
+            dialog.show()
+
             Toast.makeText(this@Test10Activity, "Gagal mengambil data, silahkan ulangi tes!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        showExitConfirmationDialog()
+        return true
+    }
+
+    private fun showExitConfirmationDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Konfirmasi")
+        builder.setMessage("Apakah Anda yakin ingin keluar? Data tes Anda tidak akan disimpan.")
+        builder.setPositiveButton("Ya, keluar dari tes") { _, _ ->
             val intent = Intent(this@Test10Activity, MbtiActivity::class.java)
             startActivity(intent)
             finish()
         }
+        builder.setNegativeButton("Batal") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 }

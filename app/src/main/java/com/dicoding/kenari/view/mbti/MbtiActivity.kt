@@ -36,6 +36,7 @@ class MbtiActivity : AppCompatActivity() {
         }
 
         binding.testButton.setOnClickListener {
+            viewModel.resetMBTI()
             val intent = Intent(this, Test1Activity::class.java)
             startActivity(intent)
             finish()
