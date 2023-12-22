@@ -39,7 +39,7 @@
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@color/blue_500"
-            android:text="Introvert or Extrovert"/>
+            android:text="Introvert vs. Extrovert"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
