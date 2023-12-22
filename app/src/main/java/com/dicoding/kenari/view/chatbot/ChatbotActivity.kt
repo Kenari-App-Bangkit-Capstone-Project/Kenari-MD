@@ -122,16 +122,11 @@ class ChatbotActivity : AppCompatActivity() {
         val userInput = binding.edtMessage.text.toString()
 
         if (userInput.isEmpty()) {
-            AlertDialog.Builder(this).apply {
-                setTitle("Error!")
-                setMessage("Pesan tidak boleh kosong")
-                create()
-                show()
-            }
+            Toast.makeText(this@ChatbotActivity, "Pesan tidak boleh kosong", Toast.LENGTH_SHORT).show()
         } else {
             binding.edtMessage.text.clear()
 
-            val chatMessage = ChatbotChat(userInput, "...")
+            val chatMessage = ChatbotChat(userInput, "Loading...")
             chatbotList.add(chatMessage)
 
             updateChatList(chatbotList)
