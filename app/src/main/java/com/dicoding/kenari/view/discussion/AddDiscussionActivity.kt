@@ -62,10 +62,7 @@ class AddDiscussionActivity : AppCompatActivity() {
                             if (response.isSuccessful) {
                                 hideKeyboard()
                                 Toast.makeText(this@AddDiscussionActivity, "Berhasil membuat diskusi baru!", Toast.LENGTH_SHORT).show()
-                                val intent = Intent(this@AddDiscussionActivity, DiscussionActivity::class.java)
-                                startActivity(intent)
 
-                                // Finish current activity
                                 finish()
                             }
                         }

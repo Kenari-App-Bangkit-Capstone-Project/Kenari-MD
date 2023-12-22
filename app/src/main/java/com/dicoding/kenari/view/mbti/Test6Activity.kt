@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
@@ -25,6 +26,13 @@ class Test6Activity : AppCompatActivity() {
         setContentView(R.layout.activity_test6)
         binding = ActivityTest6Binding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                showExitConfirmationDialog()
+            }
+        }
+        onBackPressedDispatcher.addCallback(this, callback)
 
         supportActionBar?.title = "Tes Kepribadian MBTI"
         supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#20BAB3")))

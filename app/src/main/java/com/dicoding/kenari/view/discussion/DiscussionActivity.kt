@@ -90,11 +90,7 @@ class DiscussionActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val intent = Intent(this@DiscussionActivity, MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-        startActivity(intent)
-
-        finishAffinity()
+        onBackPressedDispatcher.onBackPressed()
         return true
     }
 }
