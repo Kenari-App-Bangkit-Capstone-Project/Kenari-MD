@@ -44,7 +44,7 @@ class Test10Activity : AppCompatActivity() {
     }
 
     private fun setupActionBar() {
-        supportActionBar?.title = "Tes MBTI"
+        supportActionBar?.title = "Tes Kepribadian MBTI"
         supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#20BAB3")))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }

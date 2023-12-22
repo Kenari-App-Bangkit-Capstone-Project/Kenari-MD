@@ -25,7 +25,7 @@ class Test5Activity : AppCompatActivity() {
         binding = ActivityTest5Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.title = "Tes MBTI"
+        supportActionBar?.title = "Tes Kepribadian MBTI"
         supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#20BAB3")))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 

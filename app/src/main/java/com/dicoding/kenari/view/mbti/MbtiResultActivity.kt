@@ -15,7 +15,7 @@ class MbtiResultActivity : AppCompatActivity() {
         binding = ActivityMbtiResultBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.title = "Hasil Tes"
+        supportActionBar?.title = "Hasil Tes Kepribadian MBTI"
         supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#20BAB3")))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 

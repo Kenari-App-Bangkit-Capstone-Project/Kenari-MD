@@ -38,7 +38,7 @@ class DiscussionActivity : AppCompatActivity() {
         binding = ActivityDiscussionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.title = "Forum Diskusi"
+        supportActionBar?.title = "Forum Diskusi Mental Health"
         supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#20BAB3")))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
